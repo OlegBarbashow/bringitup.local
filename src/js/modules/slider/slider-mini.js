@@ -51,6 +51,10 @@ export default class MiniSlider extends Slider{
         });
     }
 
+    slideMover() {
+        this.paused = setInterval(() => this.nextSlide(), 5000);
+    }
+
     init() {
         this.container.style.cssText = `
             display: flex;
@@ -63,7 +67,15 @@ export default class MiniSlider extends Slider{
         this.decorizeSlides();
 
         if (this.autoplay) {
-            setInterval(() => this.nextSlide(), 5000);
+            this.slideMover();
+
+            this.container.addEventListener('mouseenter', () => {
+                clearInterval(this.paused);
+            });
+
+            this.container.addEventListener('mouseleave', () => {
+                this.slideMover();
+            });
         }
     }
 }

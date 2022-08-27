@@ -3233,18 +3233,31 @@ function (_Slider) {
       });
     }
   }, {
+    key: "slideMover",
+    value: function slideMover() {
+      var _this3 = this;
+
+      this.paused = setInterval(function () {
+        return _this3.nextSlide();
+      }, 5000);
+    }
+  }, {
     key: "init",
     value: function init() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.container.style.cssText = "\n            display: flex;\n            flex-wrap: wrap;\n            overflow: hidden;\n            align-items: flex-start;\n        ";
       this.bindTriggers();
       this.decorizeSlides();
 
       if (this.autoplay) {
-        setInterval(function () {
-          return _this3.nextSlide();
-        }, 5000);
+        this.slideMover();
+        this.container.addEventListener('mouseenter', function () {
+          clearInterval(_this4.paused);
+        });
+        this.container.addEventListener('mouseleave', function () {
+          _this4.slideMover();
+        });
       }
     }
   }]);
